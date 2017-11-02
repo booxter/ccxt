@@ -17659,7 +17659,7 @@ class poloniex (Exchange):
     def edit_order(self, id, symbol, type, side, amount=None, price=None, params={}):
         self.load_markets()
         price = float(price)
-        amount = float(amount)
+        amount = amount and float(amount)
         request = {
             'orderNumber': id,
             'rate': self.price_to_precision(symbol, price),
