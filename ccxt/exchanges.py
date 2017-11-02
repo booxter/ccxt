@@ -17601,7 +17601,7 @@ class poloniex (Exchange):
                         'remaining': 0.0,
                     })
             order = self.orders[id]
-            if market:
+            if symbol:
                 if order['symbol'] == symbol:
                     result.append(order)
             else:
