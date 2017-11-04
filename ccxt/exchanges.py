@@ -17637,12 +17637,10 @@ class poloniex (Exchange):
         self.load_markets()
         method = 'privatePost' + self.capitalize(side)
         market = self.market(symbol)
-        price = float(price)
-        amount = float(amount)
         response = getattr(self, method)(self.extend({
             'currencyPair': market['id'],
-            'rate': self.price_to_precision(symbol, price),
-            'amount': self.amount_to_precision(symbol, amount),
+            'rate': price,
+            'amount': amount,
         }, params))
         timestamp = self.milliseconds()
         order = self.parse_order(self.extend({
