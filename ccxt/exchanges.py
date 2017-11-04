@@ -13802,7 +13802,6 @@ class hitbtc2 (hitbtc):
         self.load_markets()
         market = self.market(symbol)
         clientOrderId = self.milliseconds()
-        amount = float(amount)
         order = {
             'clientOrderId': str(clientOrderId),
             'symbol': market['id'],
@@ -13853,10 +13852,10 @@ class hitbtc2 (hitbtc):
 
     def fetch_order(self, id, symbol=None, params={}):
         self.load_markets()
-        response = self.privateGetOrder(self.extend({
-            'client_order_id': id,
+        response = self.privateGetOrderClientOrderId(self.extend({
+            'clientOrderId': id,
         }, params))
-        return self.parse_order(response['orders'][0])
+        return self.parse_order(response)
 
     def fetch_open_orders(self, symbol=None, params={}):
         self.load_markets()
