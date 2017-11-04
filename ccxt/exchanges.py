@@ -13252,6 +13252,12 @@ class hitbtc (Exchange):
                     ],
                 },
             },
+            'fees': {
+                'trading': {
+                    'maker': -0.01 / 100,
+                    'taker': 0.1 / 100,
+                },
+            },
         }
         params.update(config)
         super(hitbtc, self).__init__(params)
@@ -13647,7 +13653,7 @@ class hitbtc2 (hitbtc):
             },
             'fees': {
                 'trading': {
-                    'maker': 0.0 / 100,
+                    'maker': -0.01 / 100,
                     'taker': 0.1 / 100,
                 },
             },
