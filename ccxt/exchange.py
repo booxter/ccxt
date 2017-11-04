@@ -836,14 +836,14 @@ class Exchange(object):
             },
         }
 
-    def edit_limit_buy_order(self, id, symbol, *args):
-        return self.edit_limit_order(id, symbol, 'buy', *args)
+    def edit_limit_buy_order(self, id, symbol, *args, **kwargs):
+        return self.edit_limit_order(id, symbol, 'buy', *args, **kwargs)
 
-    def edit_limit_sell_order(self, id, symbol, *args):
-        return self.edit_limit_order(id, symbol, 'sell', *args)
+    def edit_limit_sell_order(self, id, symbol, *args, **kwargs):
+        return self.edit_limit_order(id, symbol, 'sell', *args, **kwargs)
 
-    def edit_limit_order(self, id, symbol, *args):
-        return self.edit_order(id, symbol, 'limit', *args)
+    def edit_limit_order(self, id, symbol, *args, **kwargs):
+        return self.edit_order(id, symbol, 'limit', *args, **kwargs)
 
     def edit_order(self, id, symbol, *args, **kwargs):
         if not self.enableRateLimit:
@@ -851,11 +851,11 @@ class Exchange(object):
         o = self.cancel_order(id, symbol)
         return self.create_order(symbol, *args, amount=o['quantity'], **kwargs)
 
-    def create_limit_buy_order(self, symbol, *args):
-        return self.create_order(symbol, 'limit', 'buy', *args)
+    def create_limit_buy_order(self, symbol, *args, **kwargs):
+        return self.create_order(symbol, 'limit', 'buy', *args, **kwargs)
 
-    def create_limit_sell_order(self, symbol, *args):
-        return self.create_order(symbol, 'limit', 'sell', *args)
+    def create_limit_sell_order(self, symbol, *args, **kwargs):
+        return self.create_order(symbol, 'limit', 'sell', *args, **kwargs)
 
     def create_market_buy_order(self, symbol, amount, params={}):
         return self.create_order(symbol, 'market', 'buy', amount, None, params)
