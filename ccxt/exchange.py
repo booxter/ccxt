@@ -50,6 +50,7 @@ import base64
 import calendar
 import collections
 import datetime
+from decimal import Decimal as D
 import functools
 import gzip
 import hashlib
@@ -510,7 +511,7 @@ class Exchange(object):
 
     @staticmethod
     def sum(*args):
-        return sum([arg for arg in args if isinstance(arg, (float, int))])
+        return sum([arg for arg in args if isinstance(arg, (D, float, int))])
 
     @staticmethod
     def ordered(array):
