@@ -98,7 +98,7 @@ class Exchange(object):
     aiohttp_session = None
     aiohttp_proxy = None
     userAgent = False
-    verbose = False
+    verbose = True
     markets = None
     symbols = None
     precision = {}
@@ -845,11 +845,11 @@ class Exchange(object):
     def edit_limit_order(self, id, symbol, *args):
         return self.edit_order(id, symbol, 'limit', *args)
 
-    def edit_order(self, id, symbol, *args):
+    def edit_order(self, id, symbol, *args, **kwargs):
         if not self.enableRateLimit:
             raise ExchangeError(self.id + ' edit_order() requires enableRateLimit = true')
-        self.cancel_order(id, symbol)
-        return self.create_order(symbol, *args)
+        o = self.cancel_order(id, symbol)
+        return self.create_order(symbol, *args, amount=o['quantity'], **kwargs)
 
     def create_limit_buy_order(self, symbol, *args):
         return self.create_order(symbol, 'limit', 'buy', *args)
