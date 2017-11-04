@@ -28,6 +28,7 @@ SOFTWARE.
 
 # Python 2 & 3
 import base64
+from decimal import Decimal as D
 import json
 import hashlib
 import math
@@ -17393,8 +17394,8 @@ class poloniex (Exchange):
             balance = balances[id]
             currency = self.common_currency_code(id)
             account = {
-                'free': float(balance['available']),
-                'used': float(balance['onOrders']),
+                'free': D(balance['available']),
+                'used': D(balance['onOrders']),
                 'total': 0.0,
             }
             account['total'] = self.sum(account['free'], account['used'])
