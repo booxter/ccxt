@@ -98,7 +98,7 @@ class Exchange(object):
     aiohttp_session = None
     aiohttp_proxy = None
     userAgent = False
-    verbose = True
+    verbose = False
     markets = None
     symbols = None
     precision = {}
