@@ -13829,17 +13829,16 @@ class hitbtc2 (hitbtc):
 
     def parse_order(self, order, market=None):
         lastTime = self.parse8601(order['updatedAt'])
-        timestamp = lastTime.getTime()
         if not market:
             market = self.markets_by_id[order['symbol']]
         symbol = market['symbol']
         amount = order['quantity']
         filled = order['cumQuantity']
-        remaining = amount - filled
+        remaining = D(amount) - D(filled)
         return {
             'id': str(order['clientOrderId']),
-            'timestamp': timestamp,
-            'datetime': self.iso8601(timestamp),
+            'timestamp': lastTime,
+            'datetime': self.iso8601(lastTime),
             'status': order['status'],
             'symbol': symbol,
             'type': order['type'],
