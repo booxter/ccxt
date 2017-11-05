@@ -849,7 +849,7 @@ class Exchange(object):
         if not self.enableRateLimit:
             raise ExchangeError(self.id + ' edit_order() requires enableRateLimit = true')
         o = self.cancel_order(id, symbol)
-        return self.create_order(symbol, *args, amount=o['quantity'], **kwargs)
+        return self.create_order(symbol, *args, amount=D(o['quantity']) - D(o['cumQuantity']), **kwargs)
 
     def create_limit_buy_order(self, symbol, *args, **kwargs):
         return self.create_order(symbol, 'limit', 'buy', *args, **kwargs)
