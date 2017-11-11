@@ -237,7 +237,15 @@ class Exchange(object):
             delay = self.rateLimit - elapsed
             time.sleep(delay / 1000.0)
 
-    def fetch2(self, path, api='public', method='GET', params={}, headers=None, body=None):
+    def fetch2(self, *args, **kwargs):
+        for i in range(4):
+            try:
+                return self._fetch2(*args, **kwargs)
+            except Exception:
+                if i == 3:
+                    raise
+
+    def _fetch2(self, path, api='public', method='GET', params={}, headers=None, body=None):
         """A better wrapper over request for deferred signing"""
         request = self.sign(path, api, method, params, headers, body)
         return self.fetch(request['url'], request['method'], request['headers'], request['body'])
