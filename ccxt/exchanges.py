@@ -5757,7 +5757,7 @@ class bittrex (Exchange):
         method = 'marketGet' + self.capitalize(side) + type
         order = {
             'market': market['id'],
-            'quantity': self.amount_to_precision(symbol, amount),
+            'quantity': amount,
         }
         if type == 'limit':
             order['rate'] = self.price_to_precision(symbol, price)
