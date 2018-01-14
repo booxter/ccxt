@@ -17298,7 +17298,7 @@ class poloniex (Exchange):
             },
             'limits': {
                 'amount': {
-                    'min': 0.0001,
+                    'min': 0.00000001,
                     'max': 1000000000,
                 },
                 'price': {
