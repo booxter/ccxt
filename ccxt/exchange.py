@@ -92,7 +92,7 @@ class Exchange(object):
     id = None
     version = None
     enableRateLimit = True
-    rateLimit = 500  # milliseconds = seconds * 1000
+    rateLimit = 100  # milliseconds = seconds * 1000
     timeout = 10000   # milliseconds = seconds * 1000
     asyncio_loop = None
     aiohttp_session = None

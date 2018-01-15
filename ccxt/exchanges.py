@@ -1912,6 +1912,32 @@ class binance (Exchange):
         }, params))
         return self.parse_ticker(response, market)
 
+    def fetch_tickers(self, symbols=None, params={}):
+        if symbols is not None:
+            ticker = {}
+            for s in symbols:
+                ticker[s] = self.fetch_ticker(s, params=params)
+            return ticker
+        else:
+            response = self.publicGetTicker24hr(params)
+            ret = {}
+            # todo: this whole thing will need rework
+            for t in response:
+                if 'BTC' not in t['symbol']:  # shame on me
+                    continue
+                if t['symbol'].endswith('USDT'):  # hackish yea
+                    symbol = t['symbol'].replace('USDT', '/USDT')
+                if t['symbol'].endswith('BTC'):  # hackish yea
+                    symbol = t['symbol'].replace('BTC', '/BTC')
+                if symbol == '123456':  # I know, that's horrible
+                    continue
+                if symbol not in self.markets:  # foolish
+                    continue
+                if symbol == 'BCC/BTC':  # gosh I hate those hacks
+                    symbol = 'BCH/BTC'
+                ret[symbol] = self.parse_ticker(t, self.market(symbol))
+            return ret
+
     def parse_ohlcv(self, ohlcv, market=None, timeframe='1m', since=None, limit=None):
         return [
             ohlcv[0],
