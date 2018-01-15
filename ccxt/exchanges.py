@@ -5772,9 +5772,13 @@ class bittrex (Exchange):
         self.load_markets()
         response = None
         try:
+            orders = self.fetch_open_orders(symbol=symbol)
             response = self.marketGetCancel(self.extend({
                 'uuid': id,
             }, params))
+            for o in orders:
+                if o['id'] == id:
+                    return o
         except Exception as e:
             if self.last_json_response:
                 message = self.safe_string(self.last_json_response, 'message')

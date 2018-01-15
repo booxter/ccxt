@@ -91,8 +91,8 @@ class Exchange(object):
     """Base exchange class"""
     id = None
     version = None
-    enableRateLimit = False
-    rateLimit = 2000  # milliseconds = seconds * 1000
+    enableRateLimit = True
+    rateLimit = 500  # milliseconds = seconds * 1000
     timeout = 10000   # milliseconds = seconds * 1000
     asyncio_loop = None
     aiohttp_session = None
@@ -857,7 +857,7 @@ class Exchange(object):
         if not self.enableRateLimit:
             raise ExchangeError(self.id + ' edit_order() requires enableRateLimit = true')
         o = self.cancel_order(id, symbol)
-        return self.create_order(symbol, *args, amount=D(o['quantity']) - D(o['cumQuantity']), **kwargs)
+        return self.create_order(symbol, *args, amount=D(o['remaining']), **kwargs)
 
     def create_limit_buy_order(self, symbol, *args, **kwargs):
         return self.create_order(symbol, 'limit', 'buy', *args, **kwargs)
