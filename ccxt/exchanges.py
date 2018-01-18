@@ -5633,6 +5633,8 @@ class bittrex (Exchange):
         self.load_markets()
         response = self.accountGetBalances()
         balances = response['result']
+        for b in balances:
+            b['Currency'] = self.common_currency_code(b['Currency'])
         result = {'info': balances}
         indexed = self.index_by(balances, 'Currency')
         for c in range(0, len(self.currencies)):
