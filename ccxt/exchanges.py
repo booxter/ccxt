@@ -15064,6 +15064,14 @@ class kraken (Exchange):
                     ],
                 },
             },
+            # this will change in Feb 2018
+            'fees': {
+                'trading': {
+                    'maker': 0.00,
+                    'taker': 0.00,
+                },
+                'funding': 0.0,
+            },
         }
         params.update(config)
         super(kraken, self).__init__(params)
@@ -15191,7 +15199,7 @@ class kraken (Exchange):
             'percentage': None,
             'average': None,
             'baseVolume': float(ticker['v'][1]),
-            'quoteVolume': None,
+            'quoteVolume': float(ticker['v'][1]) * float(ticker['c'][0]),
             'info': ticker,
         }
 
