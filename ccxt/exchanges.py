@@ -15447,9 +15447,13 @@ class kraken (Exchange):
         self.load_markets()
         response = None
         try:
+            orders = self.fetch_open_orders(symbol=symbol)
             response = self.privatePostCancelOrder(self.extend({
                 'txid': id,
             }, params))
+            for o in orders:
+                if o['id'] == id:
+                    return o
         except Exception as e:
             if self.last_json_response:
                 message = self.safe_string(self.last_json_response, 'error')
@@ -15507,15 +15511,19 @@ class kraken (Exchange):
         return {'url': url, 'method': method, 'body': body, 'headers': headers}
 
     def request(self, path, api='public', method='GET', params={}, headers=None, body=None):
-        response = self.fetch2(path, api, method, params, headers, body)
-        if 'error' in response:
-            numErrors = len(response['error'])
-            if numErrors:
-                for i in range(0, len(response['error'])):
-                    if response['error'][i] == 'EService:Unavailable':
-                        raise ExchangeNotAvailable(self.id + ' ' + self.json(response))
-                raise ExchangeError(self.id + ' ' + self.json(response))
-        return response
+        for i in range(4):
+            response = self.fetch2(path, api, method, params, headers, body)
+            if 'error' in response:
+                numErrors = len(response['error'])
+                if numErrors:
+                    if i < 4:
+                        i += 1
+                        continue
+                    for i in range(0, len(response['error'])):
+                        if response['error'][i] == 'EService:Unavailable':
+                            raise ExchangeNotAvailable(self.id + ' ' + self.json(response))
+                    raise ExchangeError(self.id + ' ' + self.json(response))
+            return response
 
 # -----------------------------------------------------------------------------
 

@@ -241,7 +241,8 @@ class Exchange(object):
         for i in range(4):
             try:
                 return self._fetch2(*args, **kwargs)
-            except Exception:
+            except Exception as e:
+                print e
                 if i == 3:
                     raise
 
@@ -391,7 +392,7 @@ class Exchange(object):
     @staticmethod
     def truncate(num, precision=0):
         decimal_precision = math.pow(10, precision)
-        return math.trunc(num * decimal_precision) / decimal_precision
+        return math.trunc(float(num) * decimal_precision) / decimal_precision
 
     @staticmethod
     def capitalize(string):  # first character only, rest characters unchanged
