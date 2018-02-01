@@ -17717,18 +17717,22 @@ class poloniex (Exchange):
            request['amount'] = self.amount_to_precision(symbol, amount)
         response = self.privatePostMoveOrder(self.extend(request, params))
         result = None
-        if id in self.orders:
-            self.orders[id] = self.extend(self.orders[id], {
-                'price': price,
-            })
-            if amount is not None:
-                self.orders[id]['amount'] = amount
-            result = self.extend(self.orders[id], {'info': response})
-        else:
-            result = {
-                'info': response,
-                'id': response['orderNumber'],
-            }
+        #if id in self.orders:
+        #    self.orders[id] = self.extend(self.orders[id], {
+        #        'price': price,
+        #    })
+        #    if amount is not None:
+        #        self.orders[id]['amount'] = amount
+        #    result = self.extend(self.orders[id], {'info': response})
+        #else:
+        #    result = {
+        #        'info': response,
+        #        'id': response['orderNumber'],
+        #    }
+        result = {
+            'info': response,
+            'id': response['orderNumber'],
+        }
         return result
 
     def cancel_order(self, id, symbol=None, params={}):
