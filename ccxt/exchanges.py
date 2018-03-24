@@ -17705,9 +17705,10 @@ class poloniex (Exchange):
         self.orders[id] = order
         return self.extend({'info': response}, order)
 
-    def edit_order(self, id, symbol, type, side, amount=None, price=None, params={}):
+    def edit_order(self, id, symbol, type, side, amount=None, new_amount=None, price=None, params={}):
         self.load_markets()
         price = float(price)
+        amount = (amount or new_amount)
         amount = amount and float(amount)
         request = {
             'orderNumber': id,

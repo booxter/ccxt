@@ -858,7 +858,14 @@ class Exchange(object):
         if not self.enableRateLimit:
             raise ExchangeError(self.id + ' edit_order() requires enableRateLimit = true')
         o = self.cancel_order(id, symbol)
-        return self.create_order(symbol, *args, amount=D(o['remaining']), **kwargs)
+
+        # catch partial filling of orders
+        remaining = D(o['remaining'])
+        old_amount = kwargs.get('old_amount', remaining)
+        partial_diff = old_amount - remaining
+        new_amount = kwargs.get('new_amount', remaining) - partial_diff
+
+        return self.create_order(symbol, *args, amount=new_amount, **kwargs)
 
     def create_limit_buy_order(self, symbol, *args, **kwargs):
         return self.create_order(symbol, 'limit', 'buy', *args, **kwargs)
